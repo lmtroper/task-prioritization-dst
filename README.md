@@ -6,7 +6,7 @@ The tool will be able to sort tasks from highest priority to lowest priority. Us
 
 Additional goals of the tool are to provide the user with visual cues of upcoming or overdue tasks, the ability to filter tasks by deadline or assigned team members, and the ability to alter task data (i.e. edit, delete, complete a task).
 
-#### Menu/Home Page
+### Menu/Home Page
 User can the menu page to navigate to the different sheets within the Excel program
 ![Menu](https://user-images.githubusercontent.com/72565412/168627295-57f2290b-9360-4d2c-a41d-0f5f7a8533cb.jpg)
 
