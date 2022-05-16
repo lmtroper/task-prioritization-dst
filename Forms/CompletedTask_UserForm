@@ -1,0 +1,64 @@
+Private Sub cmdCompleteTask_Click()
+Dim i As Integer, check As Boolean
+
+check = False
+
+For i = 0 To lstCompleteTask.ListCount - 1
+    If lstCompleteTask.Selected(i) = True Then
+
+Dim msgValue As VbMsgBoxResult
+
+    msgValue = MsgBox("Is this task completed? (Tasks will be moved to the 'CompletedTasks' Worksheet)", vbYesNo + vbInformation, "Confirmation")
+        
+    If msgValue = vbNo Then Exit Sub
+    
+    Application.ScreenUpdating = False
+    Call Completed_Task
+    Call sort_CompletedTasks
+    Call prioritizationSorting
+    Unload Me
+    
+    check = True
+    
+    Application.ScreenUpdating = True
+    Exit For
+    End If
+Next
+
+If check = False Then
+    MsgBox ("Nothing has been selected!")
+
+End If
+
+End Sub
+
+
+Private Sub lstCompleteTask_Click()
+
+End Sub
+
+Private Sub UserForm_Initialize()
+
+
+Dim iRow As Long
+iRow = [Counta(TaskSheet!A:A)] 'Counts the amount of non-empty entries in column A
+
+    With CompletedTask_UserForm
+    
+        .lstCompleteTask.ColumnCount = 6
+        .lstCompleteTask.ColumnHeads = True 'Includes the column headings
+        .lstCompleteTask.ColumnWidths = "65, 80, 90, 80, 75, 75"
+            
+        'Intialize the list-box
+        If iRow > 1 Then
+             
+            .lstCompleteTask.RowSource = "TaskSheet!A2:F" & iRow ' iRow > 1 so add the information from the last row (assessment) inputted
+                  
+        Else
+            .lstCompleteTask.RowSource = "TaskSheet!A2:F2" 'Add the row after the column headers
+                  
+        End If
+    
+    End With
+    
+End Sub
