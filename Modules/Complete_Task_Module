@@ -1,147 +1,70 @@
+Sub Completed_Task()
 
-'Initializes and resets the values for the AddTask_UserForm
+Dim total_rows As Integer, completeTotal_rows As Integer
+Dim i As Integer, k As Integer 'Intergers used for looping
+Dim startCellDelete As Range
 
-Sub Reset_AddTask_UserForm()
+Dim overview As Worksheet, dataSheet As Worksheet, completedTasks As Worksheet
+Set overview = ThisWorkbook.Sheets("TaskSheet")
+Set dataSheet = ThisWorkbook.Sheets("Data Sheet")
+Set completedTasks = ThisWorkbook.Sheets("Completed Tasks")
 
-Dim iRow As Long
-    
-    iRow = [Counta(TaskSheet!A:A)] ''Counts how many entries are in column A of TaskSheet
-    
-    
-    'Clears the values of each element on AddTask_UserForm each time the user adds a new task
-    With AddTask_UserForm:
+total_rows = Sheet1.Cells(Rows.count, 1).End(xlUp).Row 'Identifies last row entry in column 1 on TaskSheet
+completeTotal_rows = Sheets("Completed Tasks").Cells(Rows.count, 1).End(xlUp).Row 'Identifies last row entry in column 1 on the completed task overview sheet
 
-        .txtName.Value = "" 'Clears the task name input box
+    For i = 0 To CompletedTask_UserForm.lstCompleteTask.ListCount - 1  'Loop through each assessment in Complete UserForm 1 list-box
+        If CompletedTask_UserForm.lstCompleteTask.Selected(i) = True Then
         
-        'Adds the task categories to the combo-box on the UserForm
-        .cmbCategory.Clear
-        .cmbCategory.AddItem "Front End"
-        .cmbCategory.AddItem "Back End"
-        .cmbCategory.AddItem "Modelling"
-        .cmbCategory.AddItem "Report Writing"
-        .cmbCategory.AddItem "Presentation Design"
-        
-        'Adds the team members to the combo-box on the UserForm
-        .cmbTeamMember.Clear
-        .cmbTeamMember.AddItem "Ghazal"
-        .cmbTeamMember.AddItem "Oriana"
-        .cmbTeamMember.AddItem "Tanushree"
-        .cmbTeamMember.AddItem "Toni"
-        .cmbTeamMember.AddItem "N/A"
-        
-        'Resets the value of the options buttons to unfilled
-        .optTime1.Value = False
-        .optTime2.Value = False
-        .optTime3.Value = False
-        .optTime4.Value = False
-        .optTime5.Value = False
-        
-        'Resets the value of the options buttons to unfilled
-        .optDifficulty1.Value = False
-        .optDifficulty2.Value = False
-        .optDifficulty3.Value = False
-        .optDifficulty4.Value = False
-        .optDifficulty5.Value = False
-        
-        'Resets the value of the options buttons to unfilled
-        .optImportance1.Value = False
-        .optImportance2.Value = False
-        .optImportance3.Value = False
-        .optImportance4.Value = False
-        .optImportance5.Value = False
-        
-        .txtDeadline = "" 'Clears the deadline input box
-        .txtUrgentDeadline.Value = "" 'Clears the urgent deadline input box
-    
-        
-        
-        'List Form within the AddTask_UserForm: shows all the tasks that have been added and updates right after you add a new task
-        'Set the properties of the columns for the tasksheet to fit the inputted information
-        .lstTaskSheet.ColumnCount = 6
-        .lstTaskSheet.ColumnHeads = True 'Includes the column headings
-        .lstTaskSheet.ColumnWidths = "70, 100, 90, 90, 90, 90"
-        
-            If iRow > 1 Then
-                  
-                .lstTaskSheet.RowSource = "TaskSheet!A2:F" & iRow ' iRow > 1 so add the information from the last row (task) inputted
-                  
-            Else
-                .lstTaskSheet.RowSource = "TaskSheet!A2:F2" 'Add the row after the column headers
-                  
-        End If
-              
-          
-    End With
+            With completedTasks: 'Copies the cell values from the selected task in TaskSheet to the Completed Task Sheet
+                .Cells(completeTotal_rows + 1, 1) = overview.Cells(i + 2, 2).Value
+                .Cells(completeTotal_rows + 1, 2) = overview.Cells(i + 2, 3).Value
+                .Cells(completeTotal_rows + 1, 3) = overview.Cells(i + 2, 4).Value
+                .Cells(completeTotal_rows + 1, 4) = overview.Cells(i + 2, 6).Value
+                .Cells(completeTotal_rows + 1, 5) = Format(Now(), "short date") 'Adds the date the task was marked as completed
+                
+            End With
 
-
-End Sub
-
-
-Sub Submit()
-
-    'overview is the name of the sheet that will correspond with TaskSheet
-    Dim overview As Worksheet
-    Dim iRow As Long
-    
-    'Assign the worksheet variable to TaskSheet
-    Set overview = ThisWorkbook.Sheets("TaskSheet")
-    
-    'Counts how many entries are in the column A of TaskSheet, iRow assigned to the row after the last entry(empty row)
-    iRow = [Counta(TaskSheet!A:A)] + 1
-    
-    'Fill in information from AddTask_UserForm into TaskSheet into the empty row
-    With overview
-        
-        .Cells(iRow, 2) = AddTask_UserForm.txtName.Value
-        .Cells(iRow, 3) = AddTask_UserForm.cmbCategory.Value
-        .Cells(iRow, 4) = AddTask_UserForm.cmbTeamMember.Value
-        
-        If AddTask_UserForm.txtUrgentDeadline.Value <> "" Then 'If the user chooses to input an urgent deadline
-            .Cells(iRow, 5) = CDate(AddTask_UserForm.txtUrgentDeadline.Value) 'Converts user urgent deadline input into date format
+            With dataSheet
+                dataSheet.Rows(i + 2).Delete
+            
+           End With
+            
+            'Deletes the data associated with the selected task in the TaskSheet
+            'No need to loop again as the Data Sheet and TaskSheet have the same task list sorted by priority ranks
+            Set startCellDelete = overview.Range(Cells(i + 2, 1), Cells(i + 2, 6))
+            startCellDelete.Select
+            Selection.Delete Shift:=xlUp
+                    
         End If
         
-        .Cells(iRow, 6) = CDate(AddTask_UserForm.txtDeadline.Value) 'Converts user deadline input into date format
-         
-    
-    End With
-    
-    
+    Next i
 
 End Sub
+Sub sort_CompletedTasks()
 
-
-Sub sort_TaskSheet()
-
-Sheet1.Range("A1").CurrentRegion.Sort Key1:=Range("A2"), Order1:=xlDescending, Header:=xlYes 'Sort TaskSheet by highest to lowest priority ranking value
-
-
-End Sub
-
-
-Sub sort_DataSheet()
-
-'Sorts Data Sheet by highest to lowest prioritization ranking
-'Record Macro Method
-
-Range("A2").Activate
-ActiveWorkbook.Worksheets("Data Sheet").Sort.SortFields.Clear
-ActiveWorkbook.Worksheets("Data Sheet").Sort.SortFields.Add2 Key:=Range("A2"), SortOn:=xlSortOnValues, Order:=xlDescending, DataOption:=xlSortNormal
-    With ActiveWorkbook.Worksheets("Data Sheet").Sort 'Sort the
-        .SetRange Range("A1:E6")
+    'Sorts the tasks the based on date of completion
+    'Record Macro Method
+    
+    Range("E2").Activate
+    ActiveWorkbook.Worksheets("Completed Tasks").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("Completed Tasks").Sort.SortFields.Add2 Key:=Range( _
+        "E2:E17"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:= _
+        xlSortNormal
+    With ActiveWorkbook.Worksheets("Completed Tasks").Sort
+        .SetRange Range("E1:E17")
         .Header = xlYes
         .MatchCase = False
         .Orientation = xlTopToBottom
         .SortMethod = xlPinYin
         .Apply
-        
     End With
     
-    
 End Sub
 
-
-Sub Show_AddTask_Form()
-
-    AddTask_UserForm.Show 'Opens the Add Task User Form when user clicks on the Add a Task button
+Sub Show_Complete_Task_Form()
     
+    CompletedTask_UserForm.Show 'Opens the Completed Task User Form when user clicks on the Complete Task button
+    
+
 End Sub
+
