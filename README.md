@@ -18,7 +18,7 @@ Additional goals of the tool are to provide the user with visual cues of upcomin
 
 ![ViewTask_Sheet](https://user-images.githubusercontent.com/72565412/168627978-67052275-612c-4c33-ba25-ad1e28529a5e.jpg)
 
-![ViewTasks_UserForm](https://user-images.githubusercontent.com/72565412/168627985-eb1c0ceb-b726-4815-860d-371caa3355de.jpg)
+![ViewTasks_UserForm](https://user-images.githubusercontent.com/72565412/168628763-8c74c257-3d1d-4126-96a6-80ae9f44a859.jpg)
 
 ![CompleteTask_UserForm](https://user-images.githubusercontent.com/72565412/168628029-d236edea-5862-402e-b5b0-fc929bc0d801.jpg)
 
