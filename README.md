@@ -18,6 +18,19 @@ User can add new tasks, update ongoing tasks, complete or delete tasks
 The user is prompted with data fields to fill out regarding the new task. Using information about the task's estimated time to complete, difficulty, and importance to the project, a prioritization algorithm sorts the tasks on the Task Sheet from highest to lowest priority.
 ![Add_Task_UserForm](https://user-images.githubusercontent.com/72565412/168627720-c638c5ad-daec-400f-90f7-72e47a0aec17.jpg)
 
+#### Prioritization Algorithm
+The prioritization algorithm was inspired using two existing task prioritization matrices:
+<img width="638" alt="Screen Shot 2022-05-16 at 11 48 01 AM" src="https://user-images.githubusercontent.com/72565412/168632692-118c7bd6-a01a-45bc-92f1-3117d0df709e.png">
+
+The principles taken from these two matrices are that tasks should be assigned a high priority ranking if they are considered important to the user and need to be completed urgently, and the consideration of how much effort a task needs in comparison to its importance. More specifically, if a task is not important yet requires great effort, it should be less prioritized than tasks of greater importance that require either great effort or little effort.
+
+To remain consistent with the principles of the Action Priority matrix, when importance is less than 3, the prioritization equation takes the reciprocal of the effort of value. This ensures that less important tasks that require great effort are given a lower priority value. In contrast, more important tasks will use the unmodified value of effort in the prioritization algorithm. This ensures that tasks that are important to the user that require high effort will be prioritized high as the user will need to begin working on that task sooner than important tasks that require little effort.
+
+For the algorithm, urgency is equal to difference of days between the deadline and current date; effort is determined by the weighted average of task difficulty and estimated time to complete, both values subjectively inputted by the user; and impact is grouped under the term importance, which is determined by the user using a subjective ranking system (1, being of low importance, to 5, being of high importance).
+
+ ![image](https://user-images.githubusercontent.com/72565412/168632973-4d62460b-9795-4bf5-81a2-643750d9f3c2.png)
+
+
 #### Edit Task User Form
 The Edit Task Module is designed to provide the user an opportunity to edit the data about a task after it has been added.
 
@@ -38,6 +51,7 @@ The user can filter tasks from a date range or view them by a specific team memb
 
 ### Completed Tasks Sheet
 The Completed Task Module is designed to remove the user’s completed tasks from the Task Sheet. When tasks are marked as completed, they are transferred to the Completed Tasks Sheet. 
+
 
 Here, users can view and keep a log of tasks they have completed.
 ![CompletedTasks_Sheet](https://user-images.githubusercontent.com/72565412/168628042-9e142513-7be1-47f8-9c8d-cb2b6607e89d.jpg)
