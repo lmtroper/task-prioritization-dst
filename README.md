@@ -8,3 +8,4 @@ Additional goals of the tool are to provide the user with visual cues of upcomin
 
 
 
+![Menu](https://user-images.githubusercontent.com/72565412/168624669-e4b3f4af-4fe4-4106-b829-1e79ae0eaeed.png)
