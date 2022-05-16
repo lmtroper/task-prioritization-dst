@@ -6,6 +6,3 @@ The tool will be able to sort the tasks from highest priority to lowest priority
 
 Additional goals of the tool are to provide the user with visual cues of upcoming or overdue tasks, the ability to filter tasks by deadline or assigned team members, and the ability to alter task data (i.e. edit, delete, complete a task).
 
-
-
-![Menu](https://user-images.githubusercontent.com/72565412/168624669-e4b3f4af-4fe4-4106-b829-1e79ae0eaeed.png)
